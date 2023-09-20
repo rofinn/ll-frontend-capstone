@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Course reference binary files (e.g., logos, images) we may or may not want to include in
+# the final submission.
+/reference-junk
