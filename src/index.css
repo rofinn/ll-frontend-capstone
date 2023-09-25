@@ -1,4 +1,17 @@
+:root {
+  --green: #495E57;
+  --yellow: #F4CE14;
+  --dark-salmon: #EE9972;
+  --light-salmon: #FBDABB;
+  --grey: #EDEFFE;
+  --slate: #333333;
+}
+
 body {
+  display: grid;
+  height: 150vh;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: 'header' 'main' 'footer';
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -7,7 +20,100 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+header {
+  background-color: white;
+  text-align: center;
+  padding: 2em;
+}
+
+main {
+  background-color: var(--green);
+  text-align: center;
+  padding: 2em;
+}
+
+footer {
+  background-color: white;
+  text-align: center;
+  padding: 2em;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Main title */
+h1 {
+  font-family: 'Markazi Text';
+  font-size: 64pt;
+  font-weight: bold;
+}
+/* Subtitle */
+h2 {
+  font-family: 'Markazi Text';
+  font-size: 40pt;
+  font-weight: normal;
+}
+/* Section title */
+h3 {
+  font-family: 'Karla';
+  font-size: 20pt;
+  font-weight: bolder;
+}
+/* Lead or descriptive text */
+h4 {
+  font-family: 'Karla';
+  font-size: 18pt;
+  font-weight: normal
+}
+/* Specials */
+h5 {
+  font-family: 'Karla';
+  font-size: 18pt;
+  font-weight: bolder;
+}
+/* Card title */
+h6 {
+  font-family: 'Karla';
+  font-size: 18pt;
+  font-weight: bold;
+}
+
+p {
+  font-family: 'Karla';
+  line-height: 1.5;
+  max-width: 65ch;
+}
+
+/* span {
+
+} */
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 1em;
+}
+
+li {
+  display: inline;
+}
+
+li a {
+  color: var(--slate);
+  text-decoration: none;
+  font-family: 'Karla';
+  font-size: 14pt;
+  font-weight: bolder;
+  padding: 1em;
+}
+
+img {
+  height: 5em;
+  padding: 1em;
+}
+
+li a:hover {
+  color: var(--green);
 }
