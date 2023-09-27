@@ -5,6 +5,7 @@
   --light-salmon: #FBDABB;
   --grey: #EDEFFE;
   --slate: #333333;
+  --border-radius: 16px;
 }
 
 body {
@@ -21,21 +22,30 @@ body {
 }
 
 header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
   background-color: white;
   text-align: center;
-  padding: 2em;
+  padding-top: 2em;
+}
+/* If the window is less than 800px stack the logo and navbar */
+@media (max-width: 800px) {
+  header {
+    flex-direction: column;
+  }
 }
 
 main {
   background-color: var(--green);
   text-align: center;
-  padding: 2em;
 }
 
 footer {
   background-color: white;
   text-align: center;
-  padding: 2em;
+  padding: 1em;
 }
 
 code {
@@ -90,18 +100,21 @@ p {
 
 } */
 
-ul {
-  list-style-type: none;
+/* Specific nav styling */
+.navbar {
+  display: flex;
   margin: 0;
-  padding: 1em;
+  flex-direction: row;
 }
-
-li {
-  display: inline;
+/* If the window is less than 400px stack then also stack the navlinks */
+@media (max-width: 400px) {
+  .navbar {
+    flex-direction: column;
+  }
 }
-
-li a {
+.navlink {
   color: var(--slate);
+  vertical-align: middle;
   text-decoration: none;
   font-family: 'Karla';
   font-size: 14pt;
@@ -109,11 +122,20 @@ li a {
   padding: 1em;
 }
 
-img {
-  height: 5em;
-  padding: 1em;
+.navlink:hover {
+  color: var(--green);
 }
 
-li a:hover {
-  color: var(--green);
+/* Specific Hero styling */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  background-color: grey;
+  background-blend-mode: multiply;
+  flex-direction: column;
+  position: relative;
+  color: white;
 }
