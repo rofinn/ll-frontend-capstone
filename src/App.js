@@ -4,9 +4,10 @@
 import './assets/App.css';
 import logo from './assets/logo.svg'
 
-import { useReducer } from 'react';
+import { useReducer, useEffect } from 'react';
 import { Routes, Route, Link } from  "react-router-dom"
 
+import { fetchAPI } from './api';
 import Home from './pages/Home';
 import About from './pages/About';
 import Menu from './pages/Menu';
@@ -14,27 +15,45 @@ import Bookings from './pages/Bookings';
 import Order from './pages/Order';
 import Login from './pages/Login';
 
+// *** CONSTANTS ***
+
+// Hard code the number of days we'll generate for now
+const N_DAYS = 5;
+
+/**
+ * Generates a static list of date strings yyyy-mm-dd base from 0 .. N_DAYS from today
+ * @returns an array of objects containing and key and value.
+ */
+export function availableDays() {
+  return Array.from(
+    {length: N_DAYS},
+    (x, i) => {
+      var date = new Date();
+      date.setDate(date.getDate() + i);
+      return date.toISOString().split('T')[0]
+    }
+  );
+}
+
 /**
  * Generates a static list of times from 17:00 to 22:00
  * @returns an array of objects containing and id and value.
  */
-export function updateTimes(state, action) {
-  if (action.type === 'get_available_times' && 'date' in action) {
-    const date = action.date
-    var times = [];
-
-    // Opted to include the date in the times to make sure everything is working.
-    for (let i = 17; i <= 22; i++) {
-        times.push(date + "T" + i + ":00")
-    }
-
-    return times
+export function reducer(state, action) {
+  switch (action.type) {
+    case 'fetch':
+      return {
+        times: action.times.map(
+          (x) => {
+            const hr = x.getHours();
+            return `${hr}:00`;
+          }
+        )
+      };
+    default:
+      throw Error('Unknown action: ' + action);
   }
-
-    throw Error('Unknown action: ' + action);
 }
-
-export const initializeTimes = () => ["Select a time"]
 
 export function Header() {
   return <header>
@@ -51,7 +70,15 @@ export function Header() {
 }
 
 export function Main() {
-  const [availableTimes, dispatchTimes] = useReducer(updateTimes, initializeTimes())
+  const [state, dispatch] = useReducer(reducer, {times: []})
+
+  // Only run this on initial load
+  useEffect(() => {
+    dispatch({
+      type: 'fetch',
+      times: fetchAPI(new Date())
+    });
+  }, [])
 
   return <main>
     <Routes>
@@ -59,7 +86,7 @@ export function Main() {
       <Route path="/about" element={ <About />} />
       <Route path="/menu" element={ <Menu />} />
       <Route path="/bookings"
-        element={ <Bookings availableTimes={availableTimes} dispatchTimes={dispatchTimes} /> }
+        element={ <Bookings state={state} dispatch={dispatch} /> }
        />
       <Route path="/order" element={ <Order />} />
       <Route path="/login" element={ <Login />} />
