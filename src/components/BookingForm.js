@@ -11,12 +11,14 @@ import {
     Select
     // Textarea
 } from '@chakra-ui/react';
+
+import { useState, useEffect } from 'react';
+
+import { availableDays } from '../App';
+import { fetchAPI } from '../api';
 import BookingSlot from './BookingSlot';
 
 // *** CONSTANTS ***
-
-// Hard code the number of days we'll generate for now
-const N_DAYS = 5;
 
 // Initial form values
 const INIT = {
@@ -65,24 +67,8 @@ const SCHEMA = Yup.object({
         .max(256, "Limit of 256 characters"),
 });
 
-/**
- * Generates a static list of date strings yyyy-mm-dd base from 0 .. N_DAYS from today
- * @returns an array of objects containing and key and value.
- */
-function availableDays() {
-    var days = [];
 
-    for(let i = 0; i <= N_DAYS; i++) {
-        var date = new Date()
-        date.setDate(date.getDate() + i);
-        days.push(date.toISOString().split('T')[0])
-    }
-
-    return days
-}
-
-
-export default function BookingForm({availableTimes, dispatchTimes}) {
+export default function BookingForm({state, dispatch}) {
     const FORMIK = useFormik({
         initialValues: INIT,
         onSubmit: values => {alert(JSON.stringify(values, null, 2));},
@@ -90,6 +76,14 @@ export default function BookingForm({availableTimes, dispatchTimes}) {
     });
 
     const DAYS = availableDays();
+
+    // Simply store the selected date
+    const [selected, setSelected] = useState(new Date())
+
+    // useEffect when selectedDate changes
+    useEffect(() => {dispatch(
+        {type: 'fetch', times: fetchAPI(new Date(selected))}
+    )}, [dispatch, selected])
 
     // TODO: Include prevent default and form reset once we're happy with the validation.
     // TODO: Move style to the central .css file?
@@ -126,9 +120,7 @@ export default function BookingForm({availableTimes, dispatchTimes}) {
                         id="date"
                         {...FORMIK.getFieldProps('date')}
                         onChange={(e) => {
-                            if (e.target.value != "Select a date") {
-                                dispatchTimes({type: 'get_available_times', date: e.target.value});
-                            };
+                            setSelected(e.target.value);
                             FORMIK.handleChange(e);
                         }}
                     >
@@ -145,7 +137,7 @@ export default function BookingForm({availableTimes, dispatchTimes}) {
                         {...FORMIK.getFieldProps('time')}
                         onChange={FORMIK.handleChange}
                     >
-                        {availableTimes.map((time) => <BookingSlot key={time} value={time} />)}
+                        {state.times.map((time) => <BookingSlot key={time} value={time} />)}
                     </Select>
                     <FormErrorMessage>{FORMIK.errors.time}</FormErrorMessage>
                 </FormControl>
