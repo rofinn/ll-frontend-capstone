@@ -13,6 +13,8 @@ import {
 } from '@chakra-ui/react';
 
 import { useState, useEffect } from 'react';
+import setHours from 'date-fns/setHours';
+import setMinutes from 'date-fns/setMinutes';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -77,12 +79,12 @@ export default function BookingForm({state, dispatch, setter}) {
     });
 
     // Simply store the selected date
-    const [selected, setSelected] = useState(new Date())
+    const [selectedDate, setSelectedDate] = useState(setHours(setMinutes(new Date(), 0), 17))
 
     // useEffect when selectedDate changes
     useEffect(() => {dispatch(
-        {type: 'fetch', times: fetchAPI(new Date(selected))}
-    )}, [dispatch, selected])
+        {type: 'fetch', times: fetchAPI(selectedDate)}
+    )}, [dispatch, selectedDate])
 
     // TODO: Include prevent default and form reset once we're happy with the validation.
     // TODO: Move style to the central .css file?
@@ -118,18 +120,36 @@ export default function BookingForm({state, dispatch, setter}) {
                     <DatePicker
                         id="date"
                         {...FORMIK.getFieldProps('date')}
-                        selected={new Date()}
-                        onChange={(val) => {
-                            const date = val.toLocaleDateString();
-                            setSelected(date);
-                            FORMIK.setFieldValue('date', date);
+                        minDate={selectedDate}
+                        selected={selectedDate}
+                        onChange={(date) => {
+                            setSelectedDate(date);
+                            FORMIK.setFieldValue('date', date.toLocaleDateString());
+                            FORMIK.setFieldValue('time', `${date.getHours()}:00`);
                         }}
+                        showTimeSelect
+                        timeIntervals={60}
+                        timeFormat='HH:mm'
+                        dateFormat='hh:mm aa'
+                        minTime={setHours(setMinutes(new Date(), 0), 17)}
+                        maxTime={setHours(setMinutes(new Date(), 0), 22)}
+                        filterTime={(time) => state.times.includes(`${time.getHours()}:00`)}
                     />
                     <FormErrorMessage>{FORMIK.errors.date}</FormErrorMessage>
                 </FormControl>
 
-                <FormControl isInvalid={FORMIK.touched.time && FORMIK.errors.time}>
+                {/* <FormControl isInvalid={FORMIK.touched.time && FORMIK.errors.time}>
                     <FormLabel htmlFor="time">Choose time</FormLabel>
+                    <DatePicker
+                        id="time"
+                        {...FORMIK.getFieldProps('time')}
+                        selected={selectedDate}
+
+                        onChange={(val) => {
+                            const time = `${val.getHours()}:00`;
+                            FORMIK.setFieldValue('time', time);
+                        }}
+                    />
                     <Select
                         id="time"
                         {...FORMIK.getFieldProps('time')}
@@ -139,7 +159,7 @@ export default function BookingForm({state, dispatch, setter}) {
                         {state.times.map((time) => <BookingSlot key={time} value={time} />)}
                     </Select>
                     <FormErrorMessage>{FORMIK.errors.time}</FormErrorMessage>
-                </FormControl>
+                </FormControl> */}
 
                 <FormControl isInvalid={FORMIK.touched.guests && FORMIK.errors.guests}>
                     <FormLabel htmlFor="guests">Number of guests</FormLabel>
