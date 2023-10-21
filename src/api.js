@@ -36,7 +36,7 @@ export function daysBetween(a, b) {
 }
 
 // Generate a static base set of times from 5pm to 10pm
-const TIMES = Array.from({length: (22 - 17)}, (x, i) => 17 + i);
+const DEFAULT_TIMES = Array.from({length: (22 - 17)}, (x, i) => 17 + i);
 
 /**
  * Since the api.js link provided gives a 404, I've implemented a mock function.
@@ -45,25 +45,57 @@ const TIMES = Array.from({length: (22 - 17)}, (x, i) => 17 + i);
  * timezones.
  */
 export function fetchAPI(date) {
-    const current = floorDate(new Date());
     const requested = floorDate(date);
-    const generator = LCG(requested.getTime());
-    const span = daysBetween(current, requested);
-    const threshold = 0.2 + (span * 0.1);
 
-    // Filter out times with a threshold, so that future request dates have more
-    // available spots.
-    return Array.from(
-        TIMES.filter((time) => generator.next().value > threshold),
-        (x, i) => {
-            return new Date(
-                requested.getFullYear(),
-                requested.getMonth(),
-                requested.getDate(),
-                x,
-            )
-        }
-    );
+    // Only prepopulate the available times if it hasn't already been stored.
+    if (!sessionStorage.getItem(requested)) {
+        const current = floorDate(new Date());
+        const generator = LCG(requested.getTime());
+        const span = daysBetween(current, requested);
+        const threshold = 0.2 + (span * 0.1);
+
+        // Filter out times with a threshold, so that future request dates have more
+        // available spots.
+        const available = Array.from(
+            DEFAULT_TIMES.filter((time) => generator.next().value > threshold),
+            (x, i) => {
+                return new Date(
+                    requested.getFullYear(),
+                    requested.getMonth(),
+                    requested.getDate(),
+                    x,
+                )
+            }
+        );
+
+        sessionStorage.setItem(requested, JSON.stringify(available))
+    }
+
+    return JSON.parse(sessionStorage.getItem(requested)).map((str) => new Date(str))
 }
 
-// TODO: add the submit function which should record the state I guess?
+/**
+ * Updates the data store to remove the requested date and time.
+ * If for some reason this function is called before fetchAPI for a specific date we
+ * prepopulate it. If for some reason the form date / time isn't available return false.
+ * @param {*} formData
+ */
+export function submitAPI(formData) {
+    const date = floorDate(new Date(formData.date));
+    const available = fetchAPI(date);
+    const searchTime = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        parseInt(formData.time.split(":")[0])
+    );
+
+    const index = available.findIndex((x) => x.getTime() === searchTime.getTime());
+    console.log(available);
+    console.log(searchTime);
+    console.log(index);
+    if (index === -1) return false;
+    available.splice(index);
+    sessionStorage.setItem(date, JSON.stringify(available));
+    return true;
+}

@@ -4,42 +4,24 @@
 import './assets/App.css';
 import logo from './assets/logo.svg'
 
-import { useReducer, useEffect } from 'react';
-import { Routes, Route, Link } from  "react-router-dom"
+import { useReducer, useEffect, useState} from 'react';
+import { Routes, Route, Link, useNavigate} from  "react-router-dom"
 
-import { fetchAPI } from './api';
+import { fetchAPI, submitAPI } from './api';
 import Home from './pages/Home';
 import About from './pages/About';
 import Menu from './pages/Menu';
 import Bookings from './pages/Bookings';
+import ConfirmedBooking from './pages/ConfirmedBooking';
 import Order from './pages/Order';
 import Login from './pages/Login';
-
-// *** CONSTANTS ***
-
-// Hard code the number of days we'll generate for now
-const N_DAYS = 5;
-
-/**
- * Generates a static list of date strings yyyy-mm-dd base from 0 .. N_DAYS from today
- * @returns an array of objects containing and key and value.
- */
-export function availableDays() {
-  return Array.from(
-    {length: N_DAYS},
-    (x, i) => {
-      var date = new Date();
-      date.setDate(date.getDate() + i);
-      return date.toISOString().split('T')[0]
-    }
-  );
-}
 
 /**
  * Generates a static list of times from 17:00 to 22:00
  * @returns an array of objects containing and id and value.
  */
 export function reducer(state, action) {
+  console.log(action.times);
   switch (action.type) {
     case 'fetch':
       return {
@@ -70,7 +52,9 @@ export function Header() {
 }
 
 export function Main() {
-  const [state, dispatch] = useReducer(reducer, {times: []})
+  const [state, dispatch] = useReducer(reducer, {times: []});
+  const [formData, setFormData] = useState(null);
+  const navigate = useNavigate();
 
   // Only run this on initial load
   useEffect(() => {
@@ -78,7 +62,16 @@ export function Main() {
       type: 'fetch',
       times: fetchAPI(new Date())
     });
-  }, [])
+  }, []);
+
+  // The BookingForm component just needs to call setFormData, so we can handle the
+  // API and routing here.
+  useEffect(() => {
+    const confirmed = formData && submitAPI(formData);
+    if (confirmed) {
+      navigate("/confirmed");
+    }
+  }, [formData, navigate]);
 
   return <main>
     <Routes>
@@ -86,10 +79,11 @@ export function Main() {
       <Route path="/about" element={ <About />} />
       <Route path="/menu" element={ <Menu />} />
       <Route path="/bookings"
-        element={ <Bookings state={state} dispatch={dispatch} /> }
+        element={ <Bookings state={state} dispatch={dispatch} setter={setFormData}/> }
        />
       <Route path="/order" element={ <Order />} />
       <Route path="/login" element={ <Login />} />
+      <Route path="/confirmed" element={ <ConfirmedBooking {...formData} />} />
       </Routes>
   </main>
 }
