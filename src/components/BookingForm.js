@@ -13,8 +13,9 @@ import {
 } from '@chakra-ui/react';
 
 import { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'
 
-import { availableDays } from '../App';
 import { fetchAPI } from '../api';
 import BookingSlot from './BookingSlot';
 
@@ -68,14 +69,12 @@ const SCHEMA = Yup.object({
 });
 
 
-export default function BookingForm({state, dispatch}) {
+export default function BookingForm({state, dispatch, setter}) {
     const FORMIK = useFormik({
         initialValues: INIT,
-        onSubmit: values => {alert(JSON.stringify(values, null, 2));},
+        onSubmit: values => {setter(values)},
         validationSchema: SCHEMA,
     });
-
-    const DAYS = availableDays();
 
     // Simply store the selected date
     const [selected, setSelected] = useState(new Date())
@@ -116,17 +115,16 @@ export default function BookingForm({state, dispatch}) {
 
                 <FormControl isInvalid={FORMIK.touched.date && FORMIK.errors.date}>
                     <FormLabel htmlFor="date">Choose date</FormLabel>
-                    <Select
+                    <DatePicker
                         id="date"
                         {...FORMIK.getFieldProps('date')}
-                        onChange={(e) => {
-                            setSelected(e.target.value);
-                            FORMIK.handleChange(e);
+                        selected={new Date()}
+                        onChange={(val) => {
+                            const date = val.toLocaleDateString();
+                            setSelected(date);
+                            FORMIK.setFieldValue('date', date);
                         }}
-                    >
-                        <option key="*" value={"Select a date"}>Select a date</option>
-                        {DAYS.map((day) => <option key={day} value={day}>{day}</option>)}
-                    </Select>
+                    />
                     <FormErrorMessage>{FORMIK.errors.date}</FormErrorMessage>
                 </FormControl>
 
@@ -137,6 +135,7 @@ export default function BookingForm({state, dispatch}) {
                         {...FORMIK.getFieldProps('time')}
                         onChange={FORMIK.handleChange}
                     >
+                        <option></option>
                         {state.times.map((time) => <BookingSlot key={time} value={time} />)}
                     </Select>
                     <FormErrorMessage>{FORMIK.errors.time}</FormErrorMessage>
