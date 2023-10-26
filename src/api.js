@@ -81,19 +81,10 @@ export function fetchAPI(date) {
  * @param {*} formData
  */
 export function submitAPI(formData) {
-    const date = floorDate(new Date(formData.date));
-    const available = fetchAPI(date);
-    const searchTime = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        parseInt(formData.time.split(":")[0])
-    );
+    const date = floorDate(formData.datetime);
+    const available = fetchAPI(formData.datetime);
 
-    const index = available.findIndex((x) => x.getTime() === searchTime.getTime());
-    console.log(available);
-    console.log(searchTime);
-    console.log(index);
+    const index = available.findIndex((x) => x.getTime() === formData.datetime.getTime());
     if (index === -1) return false;
     available.splice(index);
     sessionStorage.setItem(date, JSON.stringify(available));
