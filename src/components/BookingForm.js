@@ -96,7 +96,7 @@ export default function BookingForm({state, dispatch, setter}) {
                     {...FORMIK.getFieldProps('name')}
                     onChange={FORMIK.handleChange}
                 />
-                <FormErrorMessage>{FORMIK.errors.name}</FormErrorMessage>
+                <FormErrorMessage className="errorMsg">{FORMIK.errors.name}</FormErrorMessage>
             </FormControl>
 
             <FormControl isInvalid={FORMIK.touched.email && FORMIK.errors.email}>
@@ -107,7 +107,7 @@ export default function BookingForm({state, dispatch, setter}) {
                     {...FORMIK.getFieldProps('email')}
                     onChange={FORMIK.handleChange}
                 />
-                <FormErrorMessage>{FORMIK.errors.email}</FormErrorMessage>
+                <FormErrorMessage className="errorMsg">{FORMIK.errors.email}</FormErrorMessage>
             </FormControl>
 
             <FormControl isInvalid={FORMIK.touched.date && FORMIK.errors.date}>
@@ -123,13 +123,14 @@ export default function BookingForm({state, dispatch, setter}) {
                         FORMIK.setFieldValue('datetime', date);
                     }}
                     showTimeSelect
+                    inline
                     timeIntervals={60}
                     dateFormat='yyyy/MM/dd - hh:mm aa'
                     minTime={setHours(setMinutes(new Date(), 0), 17)}
                     maxTime={setHours(setMinutes(new Date(), 0), 22)}
                     filterTime={(time) => state.times.includes(`${time.getHours()}:00`)}
                 />
-                <FormErrorMessage>{FORMIK.errors.date}</FormErrorMessage>
+                <FormErrorMessage className="errorMsg">{FORMIK.errors.date}</FormErrorMessage>
             </FormControl>
 
             <FormControl isInvalid={FORMIK.touched.guests && FORMIK.errors.guests}>
@@ -154,7 +155,7 @@ export default function BookingForm({state, dispatch, setter}) {
                     <option value="Birthday">Birthday</option>
                     <option value="Anniversary">Anniversary</option>
                 </Select>
-                <FormErrorMessage>{FORMIK.errors.occasion}</FormErrorMessage>
+                <FormErrorMessage className="errorMsg">{FORMIK.errors.occasion}</FormErrorMessage>
             </FormControl>
 
             <FormControl isInvalid={FORMIK.touched.requests && FORMIK.errors.requests}>
@@ -165,7 +166,7 @@ export default function BookingForm({state, dispatch, setter}) {
                     {...FORMIK.getFieldProps('requests')}
                     onChange={FORMIK.handleChange}
                 />
-                <FormErrorMessage>{FORMIK.errors.requests}</FormErrorMessage>
+                <FormErrorMessage className="errorMsg">{FORMIK.errors.requests}</FormErrorMessage>
             </FormControl>
 
             <Button type="submit" width="full">
