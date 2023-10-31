@@ -10,7 +10,6 @@ import {
     Input,
     Select,
     Textarea
-
 } from '@chakra-ui/react';
 
 import { useState, useEffect } from 'react';
@@ -73,7 +72,8 @@ export default function BookingForm({state, dispatch, setter}) {
     });
 
     // Simply store the selected date
-    const [selectedDate, setSelectedDate] = useState(setHours(setMinutes(new Date(), 0), 17))
+    const MIN_DATE = setHours(setMinutes(new Date(), 0), 17);
+    const [selectedDate, setSelectedDate] = useState(MIN_DATE);
 
     // useEffect when selectedDate changes
     useEffect(() => {dispatch(
@@ -116,7 +116,7 @@ export default function BookingForm({state, dispatch, setter}) {
                     id="datetime"
                     className="formInput"
                     {...FORMIK.getFieldProps('datetime')}
-                    minDate={selectedDate}
+                    minDate={MIN_DATE}
                     selected={selectedDate}
                     onChange={(date) => {
                         setSelectedDate(date);
@@ -126,8 +126,9 @@ export default function BookingForm({state, dispatch, setter}) {
                     inline
                     timeIntervals={60}
                     dateFormat='yyyy/MM/dd - hh:mm aa'
-                    minTime={setHours(setMinutes(new Date(), 0), 17)}
-                    maxTime={setHours(setMinutes(new Date(), 0), 22)}
+                    // minTime={setHours(setMinutes(new Date(), 0), 17)}
+                    // maxTime={setHours(setMinutes(new Date(), 0), 22)}
+                    filterDate={(date) => date.getDay() !== 1}
                     filterTime={(time) => state.times.includes(`${time.getHours()}:00`)}
                 />
                 <FormErrorMessage className="errorMsg">{FORMIK.errors.date}</FormErrorMessage>

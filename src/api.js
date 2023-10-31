@@ -57,7 +57,7 @@ export function fetchAPI(date) {
         // Filter out times with a threshold, so that future request dates have more
         // available spots.
         const available = Array.from(
-            DEFAULT_TIMES.filter((time) => generator.next().value > threshold),
+            DEFAULT_TIMES.filter((time) => generator.next().value < threshold),
             (x, i) => {
                 return new Date(
                     requested.getFullYear(),
