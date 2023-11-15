@@ -23,6 +23,7 @@ few utility function here to make our life easier
  * Returns only the yyyy-mm-dd part of any date type
  */
 export function floorDate(date) {
+    // console.log(date instanceof Date)
     return new Date(
         date.getFullYear(),
         date.getMonth(),
@@ -45,7 +46,7 @@ const DEFAULT_TIMES = Array.from({length: (22 - 17)}, (x, i) => 17 + i);
  * timezones.
  */
 export function fetchAPI(date) {
-    const requested = floorDate(date);
+    const requested = floorDate(date instanceof Date ? date : new Date(date));
 
     // Only prepopulate the available times if it hasn't already been stored.
     if (!sessionStorage.getItem(requested)) {
@@ -57,7 +58,7 @@ export function fetchAPI(date) {
         // Filter out times with a threshold, so that future request dates have more
         // available spots.
         const available = Array.from(
-            DEFAULT_TIMES.filter((time) => generator.next().value > threshold),
+            DEFAULT_TIMES.filter((time) => generator.next().value < threshold),
             (x, i) => {
                 return new Date(
                     requested.getFullYear(),
@@ -86,7 +87,7 @@ export function submitAPI(formData) {
 
     const index = available.findIndex((x) => x.getTime() === formData.datetime.getTime());
     if (index === -1) return false;
-    available.splice(index);
+    available.splice(index, 1);
     sessionStorage.setItem(date, JSON.stringify(available));
     return true;
 }

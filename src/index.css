@@ -8,6 +8,28 @@
   --border-radius: 16px;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+/* Hack around scrollbar color styling */
+html {
+  scrollbar-color: var(--slate) var(--grey);
+  scrollbar-width: thin;
+}
+
+/* WebKit and Chromiums */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: var(--grey);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--slate);
+  border-radius: 5px;
+}
+
 body {
   display: grid;
   height: 150vh;
@@ -19,6 +41,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--grey);
 }
 
 header {
@@ -26,24 +49,27 @@ header {
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  background-color: white;
+  background-color: var(--grey);
   text-align: center;
   padding-top: 2em;
 }
+
+main {
+  background-color: var(--slate);
+  /* padding: 1em; */
+  color: var(--yellow);
+}
+
 /* If the window is less than 800px stack the logo and navbar */
 @media (max-width: 800px) {
   header {
     flex-direction: column;
   }
-}
 
-main {
-  background-color: var(--green);
-  text-align: center;
 }
 
 footer {
-  background-color: white;
+  background-color: var(--grey);
   text-align: center;
   padding: 1em;
 }
@@ -96,9 +122,56 @@ p {
   max-width: 65ch;
 }
 
-/* span {
+.formInput, button, .react-datepicker {
+  font-size: 16pt;
+  width: 100%;
+  padding: 10px 20px;
+  /* margin : 10px; */
+  /* box-sizing: border-box; */
+  border: none;
+  border-radius: var(--border-radius);
+  size: lg;
+  background-color: var(--grey);
+}
 
-} */
+.formLabel {
+  padding: 5px;
+  font-size: 12pt;
+  font-family: 'Karla';
+  font-weight: bold;
+  color: var(--grey)
+}
+
+.errorMsg {
+  color: var(--dark-salmon);
+}
+
+button {
+  background-color: var(--yellow)
+}
+
+/* Hacking around the datepicker css */
+.react-datepicker,
+.react-datepicker__time,
+.react-datepicker__header {
+  border: none !important;
+  border-radius: var(--border-radius);
+  font-family: 'Karla' !important;
+  background-color: var(--grey) !important;
+  color: var(--slate) !important;
+}
+
+.react-datepicker__day.react-datepicker__day--selected,
+.react-datepicker__day:hover,
+.react-datepicker__day--selected:hover,
+.react-datepicker__time-list-item:hover,
+.react-datepicker__time-list-item--selected:hover,
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
+  background-color: var(--slate) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--grey) !important;
+  font-weight: bold;
+}
 
 /* Specific nav styling */
 .navbar {
@@ -127,8 +200,10 @@ p {
 }
 
 /* Specific Hero styling */
+/* .hero { */
 .hero {
   display: flex;
+  text-align: center;
   justify-content: center;
   align-items: center;
   background-size: cover;
@@ -138,4 +213,31 @@ p {
   flex-direction: column;
   position: relative;
   color: white;
+}
+
+@media (max-width: 400px) {
+  .navbar {
+    flex-direction: column;
+  }
+}
+
+#bookingform {
+  display: grid;
+  justify-content: right;
+  align-items: center;
+  background-color: var(--slate);
+  text-align: center;
+  gap: 10px;
+  padding: 1em 1em 1em 3em;
+}
+#bookingimg {
+  border-radius: var(--border-radius);
+}
+@media (max-width: 900px) {
+  .bookings {
+    direction: column;
+  }
+  #bookingimg {
+    max-width: 100%;
+  }
 }
