@@ -4,12 +4,16 @@ import {LCG, floorDate, daysBetween, fetchAPI, submitAPI} from './api';
 // the timespan from the current time.
 beforeAll(() => {
     jest.useFakeTimers('modern');
-    jest.setSystemTime(new Date(2023, 10, 10))
+    jest.setSystemTime(new Date(2023, 10, 10, 8));
 });
 afterAll(() => {jest.useRealTimers()});
 
 // Clear our session storage between each test
-beforeEach(() => {window.sessionStorage.clear()});
+// Log new Date as a way to debug when setSystemTime isn't working above
+beforeEach(() => {
+    // console.log("new Date(): ", new Date());
+    window.sessionStorage.clear();
+});
 
 test('api - LCG', () => {
     const seed = 1234;
