@@ -56,7 +56,7 @@ header {
 
 main {
   background-color: var(--slate);
-  padding: 1em;
+  /* padding: 1em; */
   color: var(--yellow);
 }
 
@@ -223,7 +223,7 @@ button {
 
 #bookingform {
   display: grid;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
   background-color: var(--slate);
   text-align: center;

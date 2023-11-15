@@ -9,7 +9,7 @@ export default function Bookings(props) {
             <Box align='right' >
                 <BookingForm {...props} />
             </Box>
-            <Image id="bookingimg" maxWidth='60%' height='auto' src={restaurant} alt="Restaurant" filter='grayscale(1)'/>
+            <Image align='right' id="bookingimg" maxWidth='60%' height='auto' src={restaurant} alt="Restaurant" filter='grayscale(1)'/>
         </Stack>
     )
 }

@@ -9,19 +9,16 @@ import { Routes, Route, Link, useNavigate} from  "react-router-dom"
 
 import { fetchAPI, submitAPI } from './api';
 import Home from './pages/Home';
-import About from './pages/About';
 import Menu from './pages/Menu';
 import Bookings from './pages/Bookings';
 import ConfirmedBooking from './pages/ConfirmedBooking';
-import Order from './pages/Order';
-import Login from './pages/Login';
 
 /**
  * Generates a static list of times from 17:00 to 22:00
  * @returns an array of objects containing and id and value.
  */
 export function reducer(state, action) {
-  console.log(action.times);
+  // console.log(action.times);
   switch (action.type) {
     case 'fetch':
       return {
@@ -42,11 +39,8 @@ export function Header() {
       <img src={logo} alt="logo" />
       <nav className="navbar">
         <Link className="navlink" to="/">Home</Link>
-        <Link className="navlink" to="/about">About</Link>
         <Link className="navlink" to="/menu">Menu</Link>
         <Link className="navlink" to="/bookings">Bookings</Link>
-        <Link className="navlink" to="/order">Order</Link>
-        <Link className="navlink" to="/login.html">Login</Link>
       </nav>
   </header>
 }
@@ -76,13 +70,10 @@ export function Main() {
   return <main>
     <Routes>
       <Route path="/" element={ <Home /> } />
-      <Route path="/about" element={ <About />} />
       <Route path="/menu" element={ <Menu />} />
       <Route path="/bookings"
         element={ <Bookings state={state} dispatch={dispatch} setter={setFormData}/> }
        />
-      <Route path="/order" element={ <Order />} />
-      <Route path="/login" element={ <Login />} />
       <Route path="/confirmed" element={ <ConfirmedBooking {...formData} />} />
       </Routes>
   </main>
