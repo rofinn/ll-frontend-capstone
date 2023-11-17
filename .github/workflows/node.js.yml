@@ -36,8 +36,8 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build --if-present
-      - run: npm start & npx wait-on http://localhost:3000
+      - run: npm start & npx wait-on http://127.0.0.1:3000
       - name: Run pa11y
         run: |
           npm install -g pa11y
-          pa11y --timeout 300000 --wait 500 http://localhost:3000
+          pa11y --debug --timeout 300000 --wait 500 http://127.0.0.1:3000
