@@ -23,6 +23,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "lint": "eslint  --fix \"src/**/*.js\"",
+    "format": "prettier \"src/**/*.js\" --write --config ./.prettierrc",
+    "check-format": "prettier \"src/**/*.js\" --check --config ./.prettierrc",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
