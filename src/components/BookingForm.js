@@ -101,8 +101,7 @@ export default function BookingForm({ state, dispatch, setter }) {
           selected={selectedDate}
           onChange={(date) => {
             // console.log('datetime onChange input: ', date);
-            FORMIK.setFieldTouched('datetime', true, false)
-            FORMIK.handleChange('datetime')(date)
+            FORMIK.setFieldValue('datetime', date)
             setSelectedDate(date)
           }}
           onBlur={FORMIK.handleBlur}
