@@ -41,7 +41,8 @@ jobs:
       - name: Run axe
         run: |
           npm install -g @axe-core/cli
-          axe http://127.0.0.1:3000 --exit
+          npm install -g chromedriver@118
+          axe --chromedriver-path $(npm root -g)/chromedriver/bin/chromedriver http://127.0.0.1:3000 --exit
   # pa11y:
   #   runs-on: ubuntu-latest
   #   steps:
