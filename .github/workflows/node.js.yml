@@ -34,6 +34,7 @@ jobs:
         node-version: 20.x
         cache: 'npm'
     - run: npm ci
+    - run: npm install -g eslint
     - run: npm run lint
   formatting:
     name: "Formatting with Node v20"
@@ -46,6 +47,7 @@ jobs:
         node-version: 20.x
         cache: 'npm'
     - run: npm ci
+    - run: npm install -g prettier
     - run: prettier src/**/*.js --check --config ./.prettierrc
   accessibility:
     name: "Accessibility testing with Node v18"
