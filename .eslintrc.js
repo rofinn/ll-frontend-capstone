@@ -1,7 +1,7 @@
 module.exports = {
     root: true,
     parserOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       sourceType: 'module',
       ecmaFeatures: {
         jsx: true
@@ -13,6 +13,7 @@ module.exports = {
       }
     },
     env: {
+      es6: true,
       jest: true,
       browser: true,
       amd: true,
@@ -20,12 +21,10 @@ module.exports = {
     },
     extends: [
       'eslint:recommended',
-      'plugin:react/recommended',
-      'plugin:prettier/recommended' // Make this the last element so prettier config overrides other formatting rules
+      'plugin:react/recommended'
     ],
     rules: {
       'no-unused-vars': ['error', { vars: 'all', args: 'after-used', ignoreRestSiblings: false, argsIgnorePattern: '^_'}],
-      'prettier/prettier': ['error', {}, { usePrettierrc: true }],
       'react/prop-types': 'off'
     }
   }
