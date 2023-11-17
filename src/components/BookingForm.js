@@ -171,7 +171,7 @@ export default function BookingForm({state, dispatch, setter}) {
                 <FormErrorMessage id="requests-error" className="errorMsg">{FORMIK.errors.requests}</FormErrorMessage>
             </FormControl>
 
-            <Button type="submit" width="full">
+            <Button type="submit" width="full" aria-label="On Click">
                 Make Your reservation
             </Button>
         </form>
