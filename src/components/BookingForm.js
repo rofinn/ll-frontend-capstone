@@ -3,7 +3,7 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, Select, Textarea } from '@chakra-ui/react'
+import { Heading, Button, FormControl, FormErrorMessage, FormLabel, Input, Select, Textarea } from '@chakra-ui/react'
 
 import { useState, useEffect } from 'react'
 import setHours from 'date-fns/setHours'
@@ -30,7 +30,7 @@ const INIT = {
  * NOTE: Date and time are just strings, so we have a regex to catch any issues with the
  * generated <select> lists.
  */
-const SCHEMA = Yup.object({
+export const SCHEMA = Yup.object({
   name: Yup.string()
     .required('Please provide a name for your reservation')
     .min(2, 'Name must have at least 2 characters')
@@ -68,9 +68,9 @@ export default function BookingForm({ state, dispatch, setter }) {
   // TODO: Move style to the central .css file?
   return (
     <form id='bookingform' onSubmit={FORMIK.handleSubmit}>
-      <h1>Book Now</h1>
+      <Heading color='green.800'>Book Now</Heading>
       <FormControl isInvalid={FORMIK.touched.name && FORMIK.errors.name}>
-        <FormLabel htmlFor='name' className='formLabel'>
+        <FormLabel htmlFor='name' className='formLabel' color='green.800'>
           Name
         </FormLabel>
         <Input id='name' className='formInput' {...FORMIK.getFieldProps('name')} onChange={FORMIK.handleChange} />
@@ -91,7 +91,7 @@ export default function BookingForm({ state, dispatch, setter }) {
 
       <FormControl isInvalid={FORMIK.touched.datetime && FORMIK.errors.datetime}>
         <FormLabel htmlFor='datetime' className='formLabel'>
-          Select a reservation slot
+          Time
         </FormLabel>
         <DatePicker
           id='datetime'
@@ -100,7 +100,6 @@ export default function BookingForm({ state, dispatch, setter }) {
           minDate={MIN_DATE}
           selected={selectedDate}
           onChange={(date) => {
-            // console.log('datetime onChange input: ', date);
             FORMIK.setFieldValue('datetime', date)
             setSelectedDate(date)
           }}
@@ -150,8 +149,8 @@ export default function BookingForm({ state, dispatch, setter }) {
         </FormErrorMessage>
       </FormControl>
 
-      <Button type='submit' width='full' aria-label='On Click'>
-        Make Your reservation
+      <Button mt='1em' type='submit' width='full' aria-label='On Click'>
+        Book it
       </Button>
     </form>
   )
