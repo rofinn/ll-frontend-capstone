@@ -3,7 +3,7 @@
 Basic implementation of booking system for Coursera capstone project.
 As usual, you can clone this repo and run `npm start` to get a local instance running.
 
-TODO: Insert an image here.
+![Screenshot 2023-11-19 at 10 38 13 PM](https://github.com/rofinn/ll-frontend-capstone/assets/5276097/384a24ae-29ee-486c-a381-6d2de62e4971)
 
 ## Minimum Viable Product
 
@@ -58,7 +58,7 @@ unit tests, a linter (`eslint`) and a formatter (`prettier`) on node v20.
 I've also setup `axe` to run accessibility testing on node v18 as I was running into trouble
 with compatibility issues for the headless chrome version it needs to run.
 
-TODO: Insert a picture of the pipeline here.
+![Screenshot 2023-11-19 at 9 46 44 PM](https://github.com/rofinn/ll-frontend-capstone/assets/5276097/b5e5f882-ac8a-45c8-a903-318bbb23ef48)
 
 Coverage is just under 99% from the CI
 
