@@ -1,70 +1,94 @@
-# Getting Started with Create React App
+# Little Lemon Restauant
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Basic implementation of booking system for Coursera capstone project.
+As usual, you can clone this repo and run `npm start` to get a local instance running.
 
-## Available Scripts
+TODO: Insert an image here.
 
-In the project directory, you can run:
+## Minimum Viable Product
 
-### `npm start`
+For simplicity, only the landing, booking and confirmation pages were implemented.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- `Menu` page is under construction
+- No authentication
+- Bookings / reservations cannot be deleted or modified
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## API
 
-### `npm test`
+The course provided link for the `api.js` is no longer available so I wrote my own.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+> curl https://raw.githubusercontent.com/Meta-Front-End-Developer-PC/capstone/master/api.js
+404: Not Found
+```
+I'm not sure how the original code worked, but this implementation:
 
-### `npm run build`
+1. `fetchAPI` - Takes still takes a `date` and returns an array of available `datetime`s
+2. `submitAPI` - Takes the `datetime` from your form data and blocks off that availability
+3. Availability is pseudo-randomly generated using the requested date as a seed to an LCG, for reproduciblity.
+4. Requested dates closer to the current date will likely have fewer availability slots.
+5. Persistence between calls is managed with `sessionStorage`, so you can either clear it
+  manually or just open a new tab.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+If folks want to use it for their own project you just need to grab
+```
+> curl https://raw.githubusercontent.com/rofinn/ll-frontend-capstone/main/src/api.js
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+// Since Math.random doesn't take a seed we'll just use a simple
+// implementation of LCG (same constants as glibc)
+// https://en.wikipedia.org/wiki/Linear_congruential_generator
+export function* LCG(seed) {
+  const m = 2 ** 31 // modulus
+  const a = 1103515245 // multiplier
+  const c = 12345 // increment
 
-### `npm run eject`
+  while (true) {
+    seed = (a * seed + c) % m
+    yield seed / (m - 1)
+  }
+}
+...
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## CI
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To avoid breaking changes I've setup a minimal CI pipeline using github actions which runs
+unit tests, a linter (`eslint`) and a formatter (`prettier`) on node v20.
+I've also setup `axe` to run accessibility testing on node v18 as I was running into trouble
+with compatibility issues for the headless chrome version it needs to run.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+TODO: Insert a picture of the pipeline here.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Coverage is just under 99% from the CI
 
-## Learn More
+```
+PASS src/api.test.js
+PASS src/components/BookingForm.test.js
+PASS src/App.test.js
+----------------------|---------|----------|---------|---------|-------------------
+File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+----------------------|---------|----------|---------|---------|-------------------
+All files             |   98.71 |    88.88 |     100 |   98.64 |
+ src                  |   97.91 |    83.33 |     100 |   97.72 |
+  App.js              |   93.75 |    83.33 |     100 |   93.75 | 29
+  api.js              |     100 |    83.33 |     100 |     100 | 45
+  theme.js            |     100 |      100 |     100 |     100 |
+ src/components       |     100 |     92.3 |     100 |     100 |
+  BookingForm.js      |     100 |      100 |     100 |     100 |
+  Footer.js           |     100 |      100 |     100 |     100 |
+  Header.js           |     100 |        0 |     100 |     100 | 21
+  Hero.js             |     100 |      100 |     100 |     100 |
+ src/pages            |     100 |      100 |     100 |     100 |
+  Bookings.js         |     100 |      100 |     100 |     100 |
+  ConfirmedBooking.js |     100 |      100 |     100 |     100 |
+  Home.js             |     100 |      100 |     100 |     100 |
+  Menu.js             |     100 |      100 |     100 |     100 |
+----------------------|---------|----------|---------|---------|-------------------
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Test Suites: 3 passed, 3 total
+Tests:       25 passed, 25 total
+Snapshots:   0 total
+Time:        2.404 s, estimated 3 s
+Ran all test suites.
+```
