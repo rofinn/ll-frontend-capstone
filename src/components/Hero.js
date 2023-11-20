@@ -15,7 +15,7 @@ export default function Hero() {
         bgGradient={'linear(to-r, blackAlpha.600, transparent)'}
       >
         <Stack maxW={'4xl'} align={'flex-start'} p='5em'>
-          <Heading fontSize='4xl' color='yellow.400'>
+          <Heading as='h1' fontSize='4xl' color='yellow.400'>
             Little Lemon Restaurant
           </Heading>
         </Stack>

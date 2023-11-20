@@ -68,7 +68,9 @@ export default function BookingForm({ state, dispatch, setter }) {
   // TODO: Move style to the central .css file?
   return (
     <form id='bookingform' onSubmit={FORMIK.handleSubmit}>
-      <Heading color='green.800'>Book Now</Heading>
+      <Heading as='h1' color='green.800'>
+        Book Now
+      </Heading>
       <FormControl isInvalid={FORMIK.touched.name && FORMIK.errors.name}>
         <FormLabel htmlFor='name' className='formLabel' color='green.800'>
           Name

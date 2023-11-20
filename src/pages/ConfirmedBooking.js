@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Stack, Box, Heading, Text, Table, Tbody, Tr, Td } from '@chakra-ui/react'
+import { Flex, Stack, Box, Heading, Table, Tbody, Tr, Td } from '@chakra-ui/react'
 
 import restaurant from '../assets/restaurant.jpg'
 import { SCHEMA } from '../components/BookingForm'
@@ -9,10 +9,10 @@ import { SCHEMA } from '../components/BookingForm'
 export function BookingError() {
   return (
     <Box p='2em' align='left' bg='grey.50' borderRadius='16px'>
-      <Heading fontSize='4xl' color='yellow.500'>
+      <Heading as='h1' fontSize='4xl' color='yellow.500'>
         Booking Not Found
       </Heading>
-      <Text>Please give us a call</Text>
+      <Heading>Please give us a call</Heading>
     </Box>
   )
 }
@@ -21,8 +21,8 @@ export function BookingDetails({ name, email, datetime, guests, occasion, reques
   return (
     <Box p='2em' align='left' bg='grey.50' borderRadius='16px'>
       <Box p='2em'>
-        <Heading>Booking Confirmed!</Heading>
-        <Text>Please check your inbox</Text>
+        <Heading as='h1'>Booking Confirmed!</Heading>
+        <Heading>Please check your inbox</Heading>
       </Box>
       <Table variant='unstyled'>
         <Tbody>

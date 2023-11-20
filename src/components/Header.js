@@ -28,13 +28,11 @@ export function Item({ children, to = '/', ...rest }) {
 
 export function NavBar({ children }) {
   return (
-    <nav>
-      <Box display={{ base: 'block', md: 'block' }} flexBasis={{ base: '100%', md: 'auto' }}>
-        <Stack spacing={8} direction={['column', 'row', 'row', 'row']}>
-          {children}
-        </Stack>
-      </Box>
-    </nav>
+    <Box display={{ base: 'block', md: 'block' }} flexBasis={{ base: '100%', md: 'auto' }}>
+      <Stack spacing={8} direction={['column', 'row', 'row', 'row']}>
+        {children}
+      </Stack>
+    </Box>
   )
 }
 
