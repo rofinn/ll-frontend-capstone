@@ -1,10 +1,11 @@
 import React from 'react'
+import { Heading, Text } from '@chakra-ui/react'
 
 export default function Menu() {
   return (
     <>
-      <h1>Page currently under construction</h1>
-      <h2>Please check back at a later time</h2>
+      <Heading>Page currently under construction</Heading>
+      <Text>Please check back at a later time</Text>
     </>
   )
 }

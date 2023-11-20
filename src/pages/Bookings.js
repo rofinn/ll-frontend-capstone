@@ -1,16 +1,17 @@
 import React from 'react'
-import { Stack, Image, Box } from '@chakra-ui/react'
+import { Stack, Box, Flex } from '@chakra-ui/react'
 
 import restaurant from '../assets/restaurant.jpg'
 import BookingForm from '../components/BookingForm'
 
 export default function Bookings(props) {
   return (
-    <Stack className='bookings' spacing='5em' align='center' direction='row'>
-      <Box align='right'>
-        <BookingForm {...props} />
-      </Box>
-      <Image align='right' id='bookingimg' maxWidth='60%' height='auto' src={restaurant} alt='Restaurant' filter='grayscale(1)' />
-    </Stack>
+    <Flex w={'full'} backgroundImage={`url(${restaurant})`} backgroundSize={'cover'} backgroundPosition={'center center'}>
+      <Stack maxW='3xl' p='2em' bgGradient={'linear(to-r, blackAlpha.900, transparent)'}>
+        <Box p='1em' align='left' bg='grey.50' borderRadius='16px'>
+          <BookingForm {...props} />
+        </Box>
+      </Stack>
+    </Flex>
   )
 }
